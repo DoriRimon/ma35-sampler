@@ -30,6 +30,6 @@ hs_err_pid*
 *.csv
 
 # target
-target
-!target/mada_reports
-!target/mada_reports/*
+target/classes
+target/generated-sources
+target/maven-status
