@@ -1,10 +1,11 @@
 package run;
 
+import base.LabTests;
 import base.MadaReports;
 
 public class Main {
     public static void main(String[] args) {
-        MadaReports madaReports = new MadaReports();
-        madaReports.streamData();
+        LabTests labTests = new LabTests();
+        labTests.streamData();
     }
 }
