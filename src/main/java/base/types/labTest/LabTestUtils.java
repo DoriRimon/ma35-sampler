@@ -15,7 +15,7 @@ public class LabTestUtils {
      * @param record - the record to be transformed
      * @return The LabTest representation of the record
      */
-    public static LabTest recordToMadaReport(CSVRecord record) {
+    public static LabTest recordToLabTest(CSVRecord record) {
         int idNum = Integer.parseInt(record.get(0));
         int idType = Integer.parseInt(record.get(1));
         String firstName = record.get(2);
