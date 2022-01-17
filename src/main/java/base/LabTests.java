@@ -9,10 +9,12 @@ import base.types.madaReport.MadaReportUtils;
 import base.write.JsonWriter;
 import base.write.Writer;
 import base.write.XmlWriter;
+import health_care_provider.errors.InvalidIdException;
 import org.apache.commons.csv.CSVRecord;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -37,7 +39,15 @@ public class LabTests {
     public void streamData() {
         List<CSVRecord> records = this.parser.getRecords();
         records.remove(0); /* remove first row - columns names */
-        records.stream().map(LabTestUtils::recordToLabTest).forEach(labTest -> {
+
+        /* Map record to LabTest object, and remove those with invalid Ids */
+        records.stream().map(record -> {
+            try {
+                return LabTestUtils.recordToLabTest(record);
+            } catch (InvalidIdException e) {
+                return null;
+            }
+        }).filter(Objects::nonNull).forEach(labTest -> {
             try {
                 this.writer.write(labTest);
             } catch (IOException e) {

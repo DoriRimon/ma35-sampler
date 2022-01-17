@@ -15,7 +15,7 @@ public class LabTestUtils {
      * @param record - the record to be transformed
      * @return The LabTest representation of the record
      */
-    public static LabTest recordToLabTest(CSVRecord record) {
+    public static LabTest recordToLabTest(CSVRecord record) throws InvalidIdException {
         int idNum = Integer.parseInt(record.get(0));
         int idType = Integer.parseInt(record.get(1));
         String firstName = record.get(2);
@@ -29,17 +29,10 @@ public class LabTestUtils {
         String testType = record.get(10);
 
         HealthCareInfoProvider healthCareInfoProvider = new HealthCareInfoProvider();
-        String joinDate = null;
-        int healthCareId = 0;
-        String healthCareName = null;
-        try {
-            PersonInsured person = healthCareInfoProvider.fetchInfo(idNum, idType);
-            joinDate = person.getJoinDate().toString();
-            healthCareId = person.getHealthCareId();
-            healthCareName = person.getHealthCareName();
-        } catch (InvalidIdException e) {
-            e.printStackTrace();
-        }
+        PersonInsured person = healthCareInfoProvider.fetchInfo(idNum, idType);
+        String joinDate = person.getJoinDate().toString();
+        int healthCareId = person.getHealthCareId();
+        String healthCareName = person.getHealthCareName();
 
         LabTest labTest = new LabTest(idNum, idType, firstName, lastName, resultDate, birthDate, labCode,
                 stickerNumber, resultTestCorona, variant, testType, joinDate, healthCareId, healthCareName);
