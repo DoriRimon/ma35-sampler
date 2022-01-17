@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 
 
+
 /**
  * The XmlWriter writes to XML files
  * @param <T> - the type of data to be written
@@ -78,6 +79,7 @@ public class XmlWriter<T> implements Writer<T> {
 
         this.currentFileNumber = 0;
         initialize();
+
     }
 
     /**
@@ -103,12 +105,12 @@ public class XmlWriter<T> implements Writer<T> {
 
         /* Iterate over all objet's fields */
         Class objectClass = object.getClass();
-        for (Field field : objectClass.getFields()) {
+        for (Field field : objectClass.getDeclaredFields()) {
+            field.setAccessible(true);
             String name = field.getName();
             Object value = null;
             try {
-                value = field.get(field.getType());
-
+                value = field.get(object);
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
@@ -155,7 +157,6 @@ public class XmlWriter<T> implements Writer<T> {
 
     /**
      * Writes current batch to the file
-     * @throws IOException - if writing failed
      */
     @Override
     public void flush() {
