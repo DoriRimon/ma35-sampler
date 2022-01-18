@@ -5,11 +5,13 @@ import base.parse.Parser;
 import base.types.madaReport.MadaReport;
 import base.types.madaReport.MadaReportUtils;
 import base.write.JsonWriter;
+import base.write.WriteType;
 import base.write.Writer;
 import org.apache.commons.csv.CSVRecord;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The main class for Sampler - Stage A
@@ -20,11 +22,17 @@ public class MadaReports {
 
     public MadaReports() {
         try {
-            this.parser = new CSVParser("csvFilePath");
-            this.writer = new JsonWriter<>("jsonDirPath");
+            this.parser = new CSVParser("madaReportsCsvFilePath");
+            this.writer = new JsonWriter<>("jsonDirPath", WriteType.RECORDS_AMOUNT);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<MadaReport> getMadaReports() {
+        List<CSVRecord> records = this.parser.getRecords();
+        records.remove(0); /* remove first row - columns names */
+        return records.stream().map(MadaReportUtils::recordToMadaReport).collect(Collectors.toList());
     }
 
     /**

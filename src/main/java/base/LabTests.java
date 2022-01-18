@@ -15,6 +15,7 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 
 /**
@@ -26,11 +27,25 @@ public class LabTests {
 
     public LabTests() {
         try {
-            this.parser = new CSVParser("csvFilePath");
+            this.parser = new CSVParser("labTestsCsvFilePath");
             this.writer = new XmlWriter<>("xmlDirPath", "labTests", "labTest");
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<LabTest> getLabTests() {
+        List<CSVRecord> records = this.parser.getRecords();
+        records.remove(0); /* remove first row - columns names */
+
+        /* Map record to LabTest object, and remove those with invalid Ids */
+        return records.stream().map(record -> {
+            try {
+                return LabTestUtils.recordToLabTest(record);
+            } catch (InvalidIdException e) {
+                return null;
+            }
+        }).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
     /**
