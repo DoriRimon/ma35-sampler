@@ -2,6 +2,9 @@ package base.types.labTest.corona;
 
 import base.types.labTest.LabTest;
 
+/**
+ * Represents a corona lab test
+ */
 public class LabTestCorona extends LabTest {
     private int resultTestCorona;
     private String variant;
