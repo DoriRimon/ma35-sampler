@@ -2,7 +2,7 @@ package base;
 
 import base.types.isolated.Isolated;
 import base.types.isolated.IsolatedUtils;
-import base.types.labTest.LabTest;
+import base.types.labTest.corona.LabTestCorona;
 import base.types.madaReport.MadaReport;
 import base.write.JsonWriter;
 import base.write.WriteType;
@@ -18,12 +18,12 @@ import java.util.List;
  */
 public class Isolations {
     private MadaReports madaReports;
-    private LabTests labTests;
+    private LabTestsCorona labTests;
     private Writer<Isolated> writer;
 
     public Isolations() {
         this.madaReports = new MadaReports();
-        this.labTests = new LabTests();
+        this.labTests = new LabTestsCorona();
 
         try {
             this.writer = new JsonWriter<>("jsonDirPath", WriteType.FILE_SIZE);
@@ -44,7 +44,7 @@ public class Isolations {
         List<Isolated> isolates = new ArrayList<>();
 
         /* Filter labTests to those that have corona, Join madaReports and labTests on idNum */
-        List<LabTest> labTests = this.labTests.getLabTests();
+        List<LabTestCorona> labTests = this.labTests.getLabTestsCorona();
         labTests.stream().filter(labTest -> labTest.getResultTestCorona() == 1).forEach(labTest -> {
             MadaReport correspondingMadaReport = idToMadaReport.get(labTest.getIdNum());
             Isolated isolated = IsolatedUtils.joinMadaReportAndLabTest(correspondingMadaReport, labTest);

@@ -2,11 +2,8 @@ package base;
 
 import base.parse.CSVParser;
 import base.parse.Parser;
-import base.types.labTest.LabTest;
-import base.types.labTest.LabTestUtils;
-import base.types.madaReport.MadaReport;
-import base.types.madaReport.MadaReportUtils;
-import base.write.JsonWriter;
+import base.types.labTest.corona.LabTestCorona;
+import base.types.labTest.corona.LabTestCoronaUtils;
 import base.write.Writer;
 import base.write.XmlWriter;
 import health_care_provider.errors.InvalidIdException;
@@ -21,11 +18,11 @@ import java.util.stream.Collectors;
 /**
  * The main class for Sampler - Stage B
  */
-public class LabTests {
+public class LabTestsCorona {
     private Parser<CSVRecord> parser;
-    private Writer<LabTest> writer;
+    private Writer<LabTestCorona> writer;
 
-    public LabTests() {
+    public LabTestsCorona() {
         try {
             this.parser = new CSVParser("labTestsCsvFilePath");
             this.writer = new XmlWriter<>("xmlDirPath", "labTests", "labTest");
@@ -38,14 +35,14 @@ public class LabTests {
      * Get all the labTests from relevant CSV file
      * @return List of all LabTests
      */
-    public List<LabTest> getLabTests() {
+    public List<LabTestCorona> getLabTestsCorona() {
         List<CSVRecord> records = this.parser.getRecords();
         records.remove(0); /* remove first row - columns names */
 
         /* Map record to LabTest object, and remove those with invalid Ids */
         return records.stream().map(record -> {
             try {
-                return LabTestUtils.recordToLabTest(record);
+                return LabTestCoronaUtils.recordToLabTestCorona(record);
             } catch (InvalidIdException e) {
                 return null;
             }
@@ -57,7 +54,7 @@ public class LabTests {
      */
     public void streamData() {
         /* Map record to LabTest object, and remove those with invalid Ids */
-        getLabTests().forEach(labTest -> {
+        getLabTestsCorona().forEach(labTest -> {
             try {
                 this.writer.write(labTest);
             } catch (IOException e) {

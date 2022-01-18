@@ -1,21 +1,22 @@
-package base.types.labTest;
+package base.types.labTest.corona;
 
 import health_care_provider.HealthCareInfoProvider;
 import health_care_provider.errors.InvalidIdException;
 import health_care_provider.models.PersonInsured;
 import org.apache.commons.csv.CSVRecord;
 
+
 /**
- * LabTestUtils class provides utils for the LabTest class
+ * Provides utils for the LabTestCorona class
  */
-public class LabTestUtils {
+public class LabTestCoronaUtils {
     /**
      * Transforms a csv record in the form of [IDNum,IDType,FirstName,LastName,ResultDate,
-     * BirthDate,LabCode,StickerNumber,ResultTestCorona,Variant,TestType] to a LabTest object
+     * BirthDate,LabCode,StickerNumber,ResultTestCorona,Variant,TestType] to a LabTestCorona object
      * @param record - the record to be transformed
-     * @return The LabTest representation of the record
+     * @return The LabTestCorona representation of the record
      */
-    public static LabTest recordToLabTest(CSVRecord record) throws InvalidIdException {
+    public static LabTestCorona recordToLabTestCorona(CSVRecord record) throws InvalidIdException {
         int idNum = Integer.parseInt(record.get(0));
         int idType = Integer.parseInt(record.get(1));
         String firstName = record.get(2);
@@ -34,8 +35,7 @@ public class LabTestUtils {
         int healthCareId = person.getHealthCareId();
         String healthCareName = person.getHealthCareName();
 
-        LabTest labTest = new LabTest(idNum, idType, firstName, lastName, resultDate, birthDate, labCode,
+        return new LabTestCorona(idNum, idType, firstName, lastName, resultDate, birthDate, labCode,
                 stickerNumber, resultTestCorona, variant, testType, joinDate, healthCareId, healthCareName);
-        return labTest;
     }
 }
