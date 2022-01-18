@@ -1,6 +1,7 @@
-package base.write;
+package base.write.types;
 
 import base.config.Configurations;
+import base.write.Writer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;

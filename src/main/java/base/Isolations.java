@@ -4,8 +4,8 @@ import base.types.isolated.Isolated;
 import base.types.isolated.IsolatedUtils;
 import base.types.labTest.corona.LabTestCorona;
 import base.types.madaReport.MadaReport;
-import base.write.JsonWriter;
-import base.write.WriteType;
+import base.write.types.JsonWriter;
+import base.write.types.WriteType;
 import base.write.Writer;
 
 import java.io.IOException;

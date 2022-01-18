@@ -1,6 +1,7 @@
-package base.write;
+package base.write.types;
 
 import base.config.Configurations;
+import base.write.Writer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

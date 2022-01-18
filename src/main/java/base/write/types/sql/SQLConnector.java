@@ -1,4 +1,4 @@
-package base.write.sql;
+package base.write.types.sql;
 
 import base.config.Configurations;
 

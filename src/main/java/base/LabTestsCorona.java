@@ -5,7 +5,7 @@ import base.parse.Parser;
 import base.types.labTest.corona.LabTestCorona;
 import base.types.labTest.corona.LabTestCoronaUtils;
 import base.write.Writer;
-import base.write.XmlWriter;
+import base.write.types.XmlWriter;
 import health_care_provider.errors.InvalidIdException;
 import org.apache.commons.csv.CSVRecord;
 

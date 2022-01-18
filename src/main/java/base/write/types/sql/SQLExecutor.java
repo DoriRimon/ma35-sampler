@@ -1,4 +1,4 @@
-package base.write.sql;
+package base.write.types.sql;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

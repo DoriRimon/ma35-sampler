@@ -4,8 +4,8 @@ import base.parse.CSVParser;
 import base.parse.Parser;
 import base.types.madaReport.MadaReport;
 import base.types.madaReport.MadaReportUtils;
-import base.write.JsonWriter;
-import base.write.WriteType;
+import base.write.types.JsonWriter;
+import base.write.types.WriteType;
 import base.write.Writer;
 import org.apache.commons.csv.CSVRecord;
 

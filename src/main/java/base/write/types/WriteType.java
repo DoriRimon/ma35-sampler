@@ -1,4 +1,4 @@
-package base.write;
+package base.write.types;
 
 /**
  * Type of writing to file - what parameter to acknowledge when checking batch size
