@@ -34,6 +34,10 @@ public class LabTests {
         }
     }
 
+    /**
+     * Get all the labTests from relevant CSV file
+     * @return List of all LabTests
+     */
     public List<LabTest> getLabTests() {
         List<CSVRecord> records = this.parser.getRecords();
         records.remove(0); /* remove first row - columns names */
@@ -52,17 +56,8 @@ public class LabTests {
      * Streams data from the csv file to xml files
      */
     public void streamData() {
-        List<CSVRecord> records = this.parser.getRecords();
-        records.remove(0); /* remove first row - columns names */
-
         /* Map record to LabTest object, and remove those with invalid Ids */
-        records.stream().map(record -> {
-            try {
-                return LabTestUtils.recordToLabTest(record);
-            } catch (InvalidIdException e) {
-                return null;
-            }
-        }).filter(Objects::nonNull).forEach(labTest -> {
+        getLabTests().forEach(labTest -> {
             try {
                 this.writer.write(labTest);
             } catch (IOException e) {
