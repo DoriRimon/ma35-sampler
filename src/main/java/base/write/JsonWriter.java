@@ -9,12 +9,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.openjdk.jol.info.GraphLayout;
+
+
 /**
  * The JsonWriter writes to json files
  * @param <T> - The type of data to be written
  */
 public class JsonWriter<T> implements Writer<T> {
-    /* configurations */
+    /* Configurations */
     private Configurations configurations;
 
     /* Files writing */
@@ -23,21 +26,36 @@ public class JsonWriter<T> implements Writer<T> {
     private ObjectMapper mapper;
     private List<T> batch;
 
-    /* files metadata */
+    /* Files metadata */
     private String dirPath;
     private String fileName;
     private final String type = "json";
 
-    /* counters */
+    /* Counters */
     private int currentFileNumber;
     private int currentRecordsAmount;
-    private int maxRecordsPerBatch;
 
-    public JsonWriter(String dirPathKey) throws IOException {
+    /* Upper bound on batch size */
+    private int maxRecordsPerBatch;
+    private double maxMbPerBatch;
+
+    /* Writing type */
+    private WriteType writeType;
+
+
+    /**
+     * Initialize all writing relevant data
+     * @param dirPathKey - Path to the directory in which the files will be written
+     * @param writeType - The type of batch size checking
+     * @throws IOException - If configurations loading failed
+     */
+    public JsonWriter(String dirPathKey, WriteType writeType) throws IOException {
         this.configurations = new Configurations();
         this.dirPath = configurations.get(dirPathKey);
         this.fileName = configurations.get("jsonFileName");
 
+        this.writeType = writeType;
+        this.maxMbPerBatch = Double.parseDouble(configurations.get("jsonWriterMaxMbPerBatch"));
         this.maxRecordsPerBatch = Integer.parseInt(configurations.get("jsonWriterMaxRecordsPerBatch"));
 
         this.batch = new ArrayList<>();
@@ -77,9 +95,20 @@ public class JsonWriter<T> implements Writer<T> {
         this.batch.add(object);
         this.currentRecordsAmount++;
 
-        if (this.currentRecordsAmount >= this.maxRecordsPerBatch) {
-            batchClean();
+        if (this.writeType == WriteType.RECORDS_AMOUNT) {
+            if (this.currentRecordsAmount >= this.maxRecordsPerBatch) {
+                batchClean();
+            }
         }
+        else {
+            long batchByteSize = GraphLayout.parseInstance(this.batch).totalSize();
+            double batchMbSize = batchByteSize / 1000000.0;
+
+            if (batchMbSize >= this.maxMbPerBatch) {
+                batchClean();
+            }
+        }
+
     }
 
     /**
