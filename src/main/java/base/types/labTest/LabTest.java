@@ -13,7 +13,8 @@ public abstract class LabTest {
     private String labCode;
     private String stickerNumber;
 
-    public LabTest(int idNum, int idType, String firstName, String lastName, String resultDate, String birthDate, String labCode, String stickerNumber) {
+    public LabTest(int idNum, int idType, String firstName, String lastName,
+                   String resultDate, String birthDate, String labCode, String stickerNumber) {
         this.idNum = idNum;
         this.idType = idType;
         this.firstName = firstName;
