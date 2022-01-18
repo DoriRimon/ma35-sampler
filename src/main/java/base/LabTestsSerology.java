@@ -34,6 +34,29 @@ public class LabTestsSerology {
     }
 
     /**
+     * Creates the table
+     */
+    private void createTable() {
+        String createTableQuery =   "if not (exists (select   *" +
+                "from   INFORMATION_SCHEMA.TABLES" +
+                "where  TABLE_SCHEMA = 'LabResults' and" +
+                "TABLE_NAME = 'LabResults_SerologyKits'))" +
+                "begin" +
+                "create table LabResults_SerologyKits (" +
+                "idNum          INT," +
+                "idType         INT," +
+                "firstName      VARCHAR(255)," +
+                "lastName       VARCHAR(255)," +
+                "resultDate     DATE," +
+                "birthDate      DATE," +
+                "labCode        CHAR(5)," +
+                "stickerNumber  VARCHAR(255)," +
+                "antidotes      INT," +
+                "kitNumber      INT," +
+                "validAntidotes BIT";
+    }
+
+    /**
      * Streams data from csv file to the database
      */
     public void streamData() {
