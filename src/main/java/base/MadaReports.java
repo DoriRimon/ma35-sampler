@@ -29,6 +29,10 @@ public class MadaReports {
         }
     }
 
+    /**
+     * Get all the mada reports from relevant CSV file
+     * @return List of all MadaReports
+     */
     public List<MadaReport> getMadaReports() {
         List<CSVRecord> records = this.parser.getRecords();
         records.remove(0); /* remove first row - columns names */
@@ -39,9 +43,7 @@ public class MadaReports {
      * Streams data from the csv file to json files
      */
     public void streamData() {
-        List<CSVRecord> records = this.parser.getRecords();
-        records.remove(0); /* remove first row - columns names */
-        records.stream().map(MadaReportUtils::recordToMadaReport).forEach(report -> {
+        getMadaReports().forEach(report -> {
             try {
                 this.writer.write(report);
             } catch (IOException e) {
